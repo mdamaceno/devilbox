@@ -19,7 +19,7 @@
 ##
 
 
-version: '2.1'
+version: '2.2'
 
 
 ################################################################################
@@ -150,6 +150,7 @@ services:
       - REDIS_SERVER
       - MEMCD_SERVER
       - MONGO_SERVER
+      - FIREBIRD_SERVER
 
     networks:
       app_net:
@@ -184,6 +185,9 @@ services:
       # Mount custom mass virtual hosting
       # (configured in /etc/${HTTPD_SERVER}/02-vhost-mass.conf)
       - ${HOST_PATH_HTTPD_DATADIR}:/shared/httpd
+
+    links:
+      - firebird
 
     depends_on:
       - bind
@@ -456,6 +460,34 @@ services:
       - bind
       - php
       - httpd
+
+  # ----------------------------------------
+  # Firebird
+  # ----------------------------------------
+  firebird:
+    image: jacobalberty/firebird:${FIREBIRD_SERVER:-latest}
+
+    environment:
+
+      - FIREBIRD_USER=${FIREBIRD_ROOT_USER}
+      - FIREBIRD_PASSWORD=${FIREBIRD_ROOT_PASSWORD}
+      - ISC_PASSWORD=${FIREBIRD_ROOT_PASSWORD}
+
+    ports:
+      # [local-machine:]local-port:docker-port
+      - "${LOCAL_LISTEN_ADDR}${HOST_PORT_FIREBIRD}:3050"
+
+    volumes:
+      - ${HOST_PATH_FIREBIRD_DATADIR}:/databases
+      - ${HOST_PATH_FIREBIRD_DATADIR}/UDF:/usr/local/firebird/UDF
+
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.17
+    # For ease of use always automatically start these:
+
+    depends_on:
+      - bind
 
 
 ################################################################################
