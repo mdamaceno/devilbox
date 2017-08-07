@@ -467,6 +467,8 @@ services:
   firebird:
     image: jacobalberty/firebird:${FIREBIRD_SERVER:-latest}
 
+    restart: always
+
     environment:
 
       - FIREBIRD_USER=${FIREBIRD_ROOT_USER}
@@ -488,7 +490,6 @@ services:
 
     depends_on:
       - bind
-
 
 ################################################################################
 # NETWORK

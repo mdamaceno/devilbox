@@ -430,3 +430,34 @@ HOST_PORT_BIND=1053
 ### You can also add DNS servers from your LAN (if any are available)
 ###
 BIND_DNS_RESOLVER=8.8.8.8,8.8.4.4
+
+
+
+
+################################################################################
+###
+### 11. Firebird Docker Settings
+###
+################################################################################
+
+FIREBIRD_SERVER=2.5.7-sc
+
+###
+### Firebird database user
+###
+FIREBIRD_ROOT_USER=sysdba
+
+###
+### Firebird database password
+###
+FIREBIRD_ROOT_PASSWORD=masterkey
+
+###
+### Expose Firebird Port to Host
+###
+HOST_PORT_FIREBIRD=3500
+
+###
+### Firebird files path in host
+###
+HOST_PATH_FIREBIRD_DATADIR=/home/dunasplus/Projects/db/firebird
